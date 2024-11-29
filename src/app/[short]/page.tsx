@@ -1,15 +1,11 @@
-import { notFound, redirect } from 'next/navigation';
-import { openDb } from '../db';
+import { notFound, redirect } from "next/navigation";
+import { getUrl } from "../db";
 
-export default async function Short({ params }: { params: { short: string } }) {
-  const db = await openDb();
+export default async function Short({ params }: { params: Promise<{ short: string }> }) {
+  const short = (await params).short;
+  const url = await getUrl(short);
 
-  const short = params.short;
+  if (url && typeof url === "string") return redirect(url);
 
-  const result = await db.get("SELECT url FROM urls WHERE short = ?", [short]);
-  const url = result?.url;
-
-  if (url) return redirect(url);
-  
   notFound();
 }

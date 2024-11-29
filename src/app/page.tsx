@@ -1,6 +1,8 @@
 "use client"; 
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
+
+import Image from "next/image";
 
 const parrots = ["/parrot.gif", "/green_parrot.gif"];
 
@@ -24,6 +26,11 @@ const Message = ({ text, type, onCopy }: { text: string; type: string; onCopy: (
 
 export default function Page() {
   const [messageContent, setMessageContent] = useState<{ text: string; type: string }>({ text: "", type: "" });
+  const [parrotIndex, setParrotIndex] = useState<number>(0);
+
+  useEffect(() => {
+    setParrotIndex(Math.floor(Math.random() * parrots.length));
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +38,7 @@ export default function Page() {
     const url = (form.elements.namedItem("url") as HTMLInputElement).value;
 
     if (!url || !url.startsWith("http")) {
-      setMessageContent({ text: "URL inválida", type: "error" });
+      setMessageContent({ text: "Invalid URL", type: "error" });
       return;
     }
 
@@ -48,27 +55,28 @@ export default function Page() {
         const { short } = await response.json();
         setMessageContent({ text: `${window.location.origin}/${short}`, type: "success" });
       } else {
-        setMessageContent({ text: "Erro ao encurtar URL", type: "error" });
+        setMessageContent({ text: "Error shortening URL", type: "error" });
       }
-    } catch (error) {
-      setMessageContent({ text: "Erro ao encurtar URL", type: "error" });
+    } catch {
+      setMessageContent({ text: "Error shortening URL", type: "error" });
     }
   };
 
   const handleCopyURL = () => {
     copyToClipboard(messageContent.text);
-    setMessageContent({ text: "URL copiada", type: "success" });
+    setMessageContent({ text: "URL copied", type: "success" });
     setTimeout(() => {
       setMessageContent({ text: `${window.location.origin}/${messageContent.text.split("/").pop()}`, type: "success" });
     }, 1000);
   };
-
+          <Image src={parrots[parrotIndex]} alt="parrot" width={10} height={10} />
   return (
     <div className="content">
       <div className="main">
         <div className="title">
-          <img src={parrots[Math.floor(Math.random() * parrots.length)]} alt="parrot" />
+          <Image src={parrots[Math.floor(Math.random() * parrots.length)]} alt="parrot" width={10} height={10} unoptimized />
           <h1>Parrot</h1>
+          <Image src={parrots[Math.floor(Math.random() * parrots.length)]} alt="parrot" width={10} height={10} unoptimized />
         </div>
         <form onSubmit={handleSubmit}>
           <input type="url" name="url" placeholder="URL" required />
