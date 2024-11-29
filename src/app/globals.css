@@ -2,20 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply flex flex-col items-center justify-center h-screen bg-zinc-950 text-gray-900;
+}
+
+.main {
+  @apply flex flex-col items-center justify-center;
+}
+
+.main .title {
+  @apply flex items-center;
+}
+
+img {
+  @apply w-20 h-20;
+}
+
+.main h1 {
+  @apply text-6xl text-white font-bold;
+}
+
+.main form {
+  @apply flex flex-col items-center justify-center mt-10 mb-5;
+}
+
+.main form input {
+  @apply w-96 h-12 px-4 my-2 text-lg text-zinc-400 placeholder:text-zinc-600 bg-zinc-900 border-2 border-zinc-800 rounded-lg focus:outline focus:outline-1 focus:outline-zinc-800;
+}
+
+.main form button {
+  @apply w-64 h-12 px-4 my-2 text-lg text-black font-semibold rounded-lg bg-white transition hover:transition hover:bg-zinc-100;
+}
+
+.message {
+  @apply flex items-center justify-center w-96 p-4 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-lg;
+}
+
+.message.error {
+  @apply bg-red-500 border-red-600;
 }
