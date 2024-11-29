@@ -35,7 +35,7 @@ img {
 }
 
 .message {
-  @apply flex items-center justify-center p-1 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-lg;
+  @apply flex items-center justify-center p-2 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-lg;
 }
 
 .message.error {
